@@ -1,0 +1,59 @@
+import axios from "axios";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+class Users extends React.Component {
+  state = {
+    users: [],
+    user: {},
+  };
+  componentDidMount() {
+    axios
+      .get("http://localhost:8080/lms/viewuserslist")
+      .then((response) => {
+        console.log(response);
+        this.setState({ users: response.data });
+      })
+      .catch((error) => console.log(error));
+  }
+  render() {
+    return (
+      <div className="container">
+        {/* <Link
+          to="/viewuserslist/add"
+          className="btn btn-secondary btn-large mb-1 float-end"
+        >
+          Add
+        </Link> */}
+        <table className="table">
+          <thead>
+            <tr>
+              <th>User Id</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Contact Number</th>
+              <th>Password</th>
+              <th>Date Of Birth</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.users.map((user) => (
+              <tr>
+                <td>{user.userid}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.mobileno}</td>
+                <td>{user.password}</td>
+                <td>{user.dateofbirth}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+export default Users;
